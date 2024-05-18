@@ -1,0 +1,73 @@
+[project]
+name = "yt-watch-history-v2"
+version = '0.1.0'
+description = "Analyzes user's YouTube watch history data and show plots in streamlit web app."
+requires-python = ">=3.11"
+authors = [
+    { name = "Anshul Raj Verma", email = "111767754+arv-anshul@users.noreply.github.com" },
+]
+license = "MIT"
+readme = "README.md"
+
+[project.urls]
+homepage = "https://github.com/arv-anshul/yt-watch-history-v2"
+repository = "https://github.com/arv-anshul/yt-watch-history-v2"
+documents = "https://arv-anshul.github.io/projects/yt-watch-history-v2"
+
+[tool.ruff]
+target-version = "py311"
+show-fixes = true
+
+[tool.ruff.lint]
+extend-select = [
+    "A",
+    "B",
+    "BLE",
+    "C4",
+    "C90",
+    "COM812",
+    "E",
+    "EM",
+    "F",
+    "I",
+    "ICN",
+    "INP",
+    "ISC",
+    "PGH",
+    "PIE",
+    "PT",
+    "PL",
+    "PTH",
+    "PYI",
+    "Q",
+    "FLY",
+    "RSE",
+    "RUF",
+    "S",
+    "SLF",
+    "SIM",
+    "TCH",
+    "ARG",
+    "UP",
+    "W",
+    "YTT",
+    "FURB",
+]
+extend-ignore = [
+    "B008",
+    "B905",
+    "E501",
+    "E741",
+    "EM101",
+    "INP001",
+    "ISC001",
+    "N818",
+    "PGH003",
+    "PLR2004",
+    "S101",
+    "S301",
+]
+extend-unfixable = ["B", "F401"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402", "F401"]

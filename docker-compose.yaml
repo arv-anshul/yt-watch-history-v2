@@ -1,0 +1,36 @@
+services:
+  backend_api:
+    build: api
+    depends_on:
+      - mongodb
+    ports:
+      - 8001:8001
+    environment:
+      MONGODB_URL: mongodb://mongodb:27017
+    volumes:
+      - ./api:/app
+
+  ml:
+    build: ml
+    ports:
+      - 8002:8002
+    volumes:
+      - ./ml:/app
+
+  frontend:
+    build: frontend
+    depends_on:
+      - backend_api
+      - ml
+    ports:
+      - 8501:8501
+    volumes:
+      - ./frontend:/app
+    environment:
+      BACKEND_API_URL: http://backend_api:8001
+      ML_API_URL: http://ml:8002
+
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017

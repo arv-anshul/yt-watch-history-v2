@@ -1,0 +1,22 @@
+[project]
+name = "api"
+version = "0.1.0"
+authors = [
+    { name = "Anshul Raj Verma", email = "111767754+arv-anshul@users.noreply.github.com" },
+]
+dependencies = [
+    "fastapi[all]==0.111.0",
+    "motor==3.4.0",
+    "pymongo==4.7.2",
+    "pydantic==2.7.1",
+    "polars==0.20.25",
+]
+requires-python = ">=3.11"
+
+[tool.rye]
+managed = true
+virtual = true
+dev-dependencies = []
+
+[tool.ruff]
+extend = "../pyproject.toml"

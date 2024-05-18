@@ -1,0 +1,18 @@
+[project]
+name = "frontend"
+version = "0.1.0"
+authors = [
+    { name = "Anshul Raj Verma", email = "111767754+arv-anshul@users.noreply.github.com" },
+]
+dependencies = [
+    "httpx==0.27.0",
+    "streamlit==1.34.0",
+    "polars==0.20.25",
+    "plotly==5.22.0",
+]
+requires-python = ">=3.11"
+
+[tool.rye]
+managed = true
+virtual = true
+dev-dependencies = []
