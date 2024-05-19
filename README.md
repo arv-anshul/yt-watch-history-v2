@@ -25,6 +25,16 @@ Analyse you YouTube Watch History using Machine Learning, plot graphs, etc.
    - Recommender System
    - Uses user's channel subscriptions data to recommend channel
 
+> \[!IMPORTANT\]
+>
+> By the way, I'm planning to upload the trained model to internet and
+> model is download from URL to docker container once (if not exists).
+>
+> The model URL is provide through environment variable (`CTT_MODEL_URL`).
+> If you want you can provide your model's URL.
+>
+> _This solution may works in short term_ 🤞
+
 **API**
 
 - Used **FastAPI** to serve model.
@@ -32,10 +42,10 @@ Analyse you YouTube Watch History using Machine Learning, plot graphs, etc.
 
 > \[!CAUTION\]
 >
-> You have to first train the model locally, and after that, put that model into a
-> container to work.
+> First, you have to train the ML model locally, and after that, start the docker
+> container (because each containers are connected with their respective directories).
 >
-> Fix this issue or find a better way to this.
+> **AUTHOR NOTE**: Fix this issue or find a better way to this.
 
 ### Frontend
 
@@ -59,7 +69,7 @@ git clone https://github.com/arv-anshul/yt-watch-history-v2
 cd yt-watch-history-v2
 ```
 
-Train ML model [CTT model](ml/src/ctt/) using below command:
+Train ML model [CTT model](ml/src/ctt/training.py) using below command:
 
 ```bash
 cd ./ml
@@ -85,7 +95,7 @@ docker compose up --build  # First build the container and then run it (for firs
 
 - [x] 🛠️ Build the basics from [yt-watch-history] project
 - [x] 🎨 Draw diagrams for references
-- [ ] 🚧 How to use ML Model
+- [ ] 🚧 How to intergrate **pre-trained** ML Model
 - [ ] 📌 Integrate `mlflow` for ML Model monitoring
 - [ ] 🤖 Build **Channel Recommender System**
 
