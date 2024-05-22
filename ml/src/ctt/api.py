@@ -9,6 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
 from src.configs import CTT_MODEL_PATH, ContentTypeEnum
+from src.ctt.model import download_ctt_ml_model_from_url
 
 if TYPE_CHECKING:
     from sklearn.pipeline import Pipeline
@@ -19,7 +20,9 @@ router = APIRouter()
 @lru_cache(1)
 def load_model_from_path() -> Pipeline:
     if not CTT_MODEL_PATH.exists():
-        raise HTTPException(404, {"error": "Ctt Model not found."})
+        download_ctt_ml_model_from_url()
+    if not CTT_MODEL_PATH.exists():
+        raise HTTPException(422, "Model doesn't download properly.")
     with CTT_MODEL_PATH.open("rb") as f:
         return joblib.load(f)
 
