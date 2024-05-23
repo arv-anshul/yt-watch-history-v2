@@ -16,6 +16,8 @@ services:
       - 8002:8002
     volumes:
       - ./ml:/app
+    environment:
+      CTT_MODEL_URL: null
 
   frontend:
     build: frontend
