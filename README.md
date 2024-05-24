@@ -95,7 +95,8 @@ docker compose up --build  # First build the container and then run it (for firs
 
 - [x] 🛠️ Build the basics from [yt-watch-history] project
 - [x] 🎨 Draw diagrams for references
-- [ ] 🚧 How to intergrate **pre-trained** ML Model
+- [x] ⛓️ How to intergrate **pre-trained** ML Model
+- [ ] 👷 Better CTT Model pipeline
 - [ ] 📌 Integrate `mlflow` for ML Model monitoring
 - [ ] 🤖 Build **Channel Recommender System**
 
