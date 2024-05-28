@@ -2,6 +2,12 @@
 
 Analyse you YouTube Watch History using Machine Learning, plot graphs, etc.
 
+<p align="center">
+<a href="https://github.com/arv-anshul/yt-watch-history"><img src="https://img.shields.io/badge/Project%20V1-181717?logo=github&amp;logoColor=fff" alt="GitHub"></a>
+<a href="https://arv-anshul.github.io/project/yt-watch-history"><img src="https://img.shields.io/badge/Project%20Webpage-526CFE?logo=materialformkdocs&amp;logoColor=fff" alt="Material for MkDocs"></a>
+<a href="https://arv-anshul.github.io/project/yt-watch-history/v2-architecture"><img src="https://img.shields.io/badge/Project%20Architecture%20Diagram-FF3670?logo=mermaid&amp;logoColor=fff" alt="Mermaid"></a>
+</p>
+
 <p align=center>
   <img src="assets/img/diagram-for-v2.png" height="450px" title="Architecture of Project">
 </p>
