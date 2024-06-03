@@ -67,7 +67,7 @@ class ChannelRecommenderSystem:
 if __name__ == "__main__":
     import joblib
 
-    from src.configs import CHR_DATA_PATH, CHR_TRANSFORMER_PATH
+    from src.configs import CHR_DATA_PATH, CHR_SYS_OBJ_PATH
 
     df = pl.read_json(CHR_DATA_PATH)
     data = preprocess(df.lazy())
@@ -75,4 +75,4 @@ if __name__ == "__main__":
     ch_reco = ChannelRecommenderSystem(data)
     ch_reco.fit()
 
-    joblib.dump(ch_reco, CHR_TRANSFORMER_PATH)
+    joblib.dump(ch_reco, CHR_SYS_OBJ_PATH)
