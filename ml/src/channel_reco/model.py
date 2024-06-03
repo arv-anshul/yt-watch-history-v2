@@ -61,7 +61,7 @@ class ChannelRecommenderSystem:
                 ).ravel(),
             },
         )
-        return self.data.join(similarity, on="channelId")
+        return self.data.drop("input").join(similarity, on="channelId")
 
 
 if __name__ == "__main__":
