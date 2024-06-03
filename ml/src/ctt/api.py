@@ -3,13 +3,12 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import TYPE_CHECKING
 
-import joblib
 import polars as pl
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
-from src.configs import CTT_MODEL_PATH, ContentTypeEnum
-from src.ctt.model import download_ctt_ml_model_from_url
+from src.configs import CTT_MODEL_PATH, CTT_MODEL_URL, ContentTypeEnum
+from src.utils import load_obj_from_path
 
 if TYPE_CHECKING:
     from sklearn.pipeline import Pipeline
@@ -19,12 +18,8 @@ router = APIRouter()
 
 @lru_cache(1)
 def load_model_from_path() -> Pipeline:
-    if not CTT_MODEL_PATH.exists():
-        download_ctt_ml_model_from_url()
-    if not CTT_MODEL_PATH.exists():
-        raise HTTPException(422, "Model doesn't download properly.")
-    with CTT_MODEL_PATH.open("rb") as f:
-        return joblib.load(f)
+    model = load_obj_from_path(CTT_MODEL_URL, CTT_MODEL_PATH)
+    return model
 
 
 class CttInputData(BaseModel):
