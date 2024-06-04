@@ -25,3 +25,8 @@ class ContentTypeEnum(StrEnum):
 
 
 CONTENT_TYPE_TAGS = [i.value for i in ContentTypeEnum]
+
+# Channel Recommender System Configs
+CHR_DATA_PATH = Path("data/chr/titles.json")
+CHR_SYS_OBJ_PATH = Path("models/chr/chr_obj.pkl")
+CHR_SYS_OBJ_URL: Final[str] = os.environ["CHR_SYS_OBJ_URL"]
