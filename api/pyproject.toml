@@ -8,8 +8,8 @@ dependencies = [
     "fastapi[all]==0.111.0",
     "motor==3.4.0",
     "pymongo==4.7.2",
-    "pydantic==2.7.1",
-    "polars==0.20.25",
+    "pydantic==2.7.3",
+    "polars==0.20.31",
 ]
 requires-python = ">=3.11"
 

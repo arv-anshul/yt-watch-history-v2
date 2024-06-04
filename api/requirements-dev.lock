@@ -6,6 +6,7 @@
 #   features: []
 #   all-features: false
 #   with-sources: false
+#   generate-hashes: false
 
 annotated-types==0.6.0
     # via pydantic
@@ -54,12 +55,12 @@ mdurl==0.1.2
 motor==3.4.0
 orjson==3.10.3
     # via fastapi
-polars==0.20.25
-pydantic==2.7.1
+polars==0.20.31
+pydantic==2.7.3
     # via fastapi
     # via pydantic-extra-types
     # via pydantic-settings
-pydantic-core==2.18.2
+pydantic-core==2.18.4
     # via pydantic
 pydantic-extra-types==2.7.0
     # via fastapi

@@ -8,9 +8,9 @@ dependencies = [
     "fastapi[all]==0.111.0",
     "motor==3.4.0",
     "pymongo==4.7.2",
-    "polars==0.20.25",
-    "scikit-learn==1.4.2",
-    "emoji==2.11.1",
+    "polars==0.20.31",
+    "scikit-learn==1.5.0",
+    "emoji==2.12.1",
     "joblib==1.4.2",
 ]
 requires-python = ">=3.11"

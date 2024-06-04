@@ -6,14 +6,15 @@
 #   features: []
 #   all-features: false
 #   with-sources: false
+#   generate-hashes: false
 
-annotated-types==0.6.0
+annotated-types==0.7.0
     # via pydantic
-anyio==4.3.0
+anyio==4.4.0
     # via httpx
     # via starlette
     # via watchfiles
-certifi==2024.2.2
+certifi==2024.6.2
     # via httpcore
     # via httpx
 click==8.1.7
@@ -24,10 +25,9 @@ dnspython==2.6.1
     # via pymongo
 email-validator==2.1.1
     # via fastapi
-emoji==2.11.1
+emoji==2.12.1
 fastapi==0.111.0
-    # via fastapi-cli
-fastapi-cli==0.0.3
+fastapi-cli==0.0.4
     # via fastapi
 h11==0.14.0
     # via httpcore
@@ -60,16 +60,16 @@ numpy==1.26.4
     # via scipy
 orjson==3.10.3
     # via fastapi
-polars==0.20.25
-pydantic==2.7.1
+polars==0.20.31
+pydantic==2.7.3
     # via fastapi
     # via pydantic-extra-types
     # via pydantic-settings
-pydantic-core==2.18.2
+pydantic-core==2.18.4
     # via pydantic
 pydantic-extra-types==2.7.0
     # via fastapi
-pydantic-settings==2.2.1
+pydantic-settings==2.3.0
     # via fastapi
 pygments==2.18.0
     # via rich
@@ -85,8 +85,8 @@ pyyaml==6.0.1
     # via uvicorn
 rich==13.7.1
     # via typer
-scikit-learn==1.4.2
-scipy==1.13.0
+scikit-learn==1.5.0
+scipy==1.13.1
     # via scikit-learn
 shellingham==1.5.4
     # via typer
@@ -99,19 +99,19 @@ threadpoolctl==3.5.0
     # via scikit-learn
 typer==0.12.3
     # via fastapi-cli
-typing-extensions==4.11.0
+typing-extensions==4.12.1
+    # via emoji
     # via fastapi
     # via pydantic
     # via pydantic-core
     # via typer
-ujson==5.9.0
+ujson==5.10.0
     # via fastapi
-uvicorn==0.29.0
+uvicorn==0.30.1
     # via fastapi
-    # via fastapi-cli
 uvloop==0.19.0
     # via uvicorn
-watchfiles==0.21.0
+watchfiles==0.22.0
     # via uvicorn
 websockets==12.0
     # via uvicorn
