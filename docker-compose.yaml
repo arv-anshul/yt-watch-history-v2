@@ -18,6 +18,7 @@ services:
       - ./ml:/app
     environment:
       CTT_MODEL_URL: null
+      CHR_SYS_OBJ_URL: "/url_to_trained_obj"
 
   frontend:
     build: frontend
