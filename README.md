@@ -29,15 +29,16 @@ Analyse you YouTube Watch History using Machine Learning, plot graphs, etc.
    - Uses _Video Title_ to predict Content Type
 2. **Channel Recommender System**
    - Recommender System
+   - Uses channel's videos title and tags to calculate similarity
+   - Uses `TfidfVectorizer` for text to vec convertion
    - Uses user's channel subscriptions data to recommend channel
 
 > \[!IMPORTANT\]
 >
-> By the way, I'm planning to upload the trained model to internet and
-> model is download from URL to docker container once (if not exists).
+> By the way, I'm planning to upload the trained model to internet and model is download from URL to docker container
+> once (if not exists).
 >
-> The model URL is provide through environment variable (`CTT_MODEL_URL`).
-> If you want you can provide your model's URL.
+> The model URL is provide through environment variable (`CTT_MODEL_URL`). If you want you can provide your model's URL.
 >
 > _This solution may works in short term_ 🤞
 
@@ -46,20 +47,12 @@ Analyse you YouTube Watch History using Machine Learning, plot graphs, etc.
 - Used **FastAPI** to serve model.
 - Containerize FastAPI application and models using **Docker**.
 
-> \[!CAUTION\]
->
-> First, you have to train the ML model locally, and after that, start the docker
-> container (because each containers are connected with their respective directories).
->
-> **AUTHOR NOTE**: Fix this issue or find a better way to this.
-
 ### Frontend
 
-- Used **Streamlit** to create multipage web application where users can upload their
-  required data and see analysis.
-- Requires **YouTube API Key** for advance analysis.
-- Used **httpx** library to interact make requests to "Backend APIs" and "ML APIs".
-- Used **Polars** for data manipulation.
+- Uses **Streamlit** to create multipage web application where users can upload their required data and see analysis.
+- Requires **YouTube API Key** to fetch video details from API for advance analysis.
+- Uses **httpx** library to interact make requests to "Backend APIs" and "ML APIs".
+- Uses **Polars** for data manipulation.
 
 ### Apps Composition
 
@@ -102,9 +95,9 @@ docker compose up --build  # First build the container and then run it (for firs
 - [x] 🛠️ Build the basics from [yt-watch-history] project
 - [x] 🎨 Draw diagrams for references
 - [x] ⛓️ How to intergrate **pre-trained** ML Model
+- [x] 🤖 Build **Channel Recommender System**
 - [ ] 👷 Better CTT Model pipeline
 - [ ] 📌 Integrate `mlflow` for ML Model monitoring
-- [ ] 🤖 Build **Channel Recommender System**
 
 [docker-compose.yaml]: docker-compose.yaml
 [yt-watch-history]: https://github.com/arv-anshul/yt-watch-history
