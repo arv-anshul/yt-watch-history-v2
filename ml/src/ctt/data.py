@@ -9,9 +9,8 @@ def data_preprocessor(data: pl.LazyFrame) -> pl.LazyFrame:
     req_cols = {"channelId", "contentType", "title"}
     data_cols = data.columns
     if not all(i in data_cols for i in req_cols):
-        raise pl.ColumnNotFoundError(
-            "X must contains columns %s" % list(req_cols - set(data_cols)),
-        )
+        msg = f"X must contains columns {list(req_cols - set(data_cols))}"
+        raise pl.ColumnNotFoundError(msg)
     return (
         data
         # Data Cleaning
