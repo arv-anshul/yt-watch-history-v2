@@ -10,7 +10,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import make_pipeline
 
-from src.configs import CTT_MODEL_PATH
+from src.configs import CTT_MODEL_PATH, ContentTypeEnum
 
 from .data import preprocess
 
@@ -71,13 +71,23 @@ class CttPredictorModel:
             .str.to_lowercase()
             .alias("input"),
         ).collect()
-        return _data.with_columns(
-            pl.Series(
-                "contentType",
-                self.pipeline.predict(_data.get_column("input")),
-                pl.UInt16(),
-            ),
-        ).lazy()
+        return (
+            _data.select(
+                "videoId",
+                pl.Series(
+                    "contentTypePred",
+                    self.pipeline.predict(_data.get_column("input")),
+                    pl.UInt16(),
+                ),
+            )
+            .with_columns(
+                pl.col("contentTypePred").replace(
+                    pl.int_range(len(ContentTypeEnum), dtype=pl.UInt16),
+                    tuple(str(i) for i in ContentTypeEnum),
+                ),
+            )
+            .lazy()
+        )
 
     def dump(self, path: Path | None = None) -> None:
         path = path or CTT_MODEL_PATH
