@@ -68,20 +68,6 @@ git clone https://github.com/arv-anshul/yt-watch-history-v2
 cd yt-watch-history-v2
 ```
 
-Train ML model [CTT model](ml/src/ctt/training.py) using below command:
-
-```bash
-cd ./ml
-```
-
-```bash
-# Using rye
-rye run python -m src.ctt.model
-
-# Using python (activate virtual environment)
-python -m src.ctt.model
-```
-
 Open **Docker Desktop** and run below command:
 
 👀 See [docker-compose.yaml]
