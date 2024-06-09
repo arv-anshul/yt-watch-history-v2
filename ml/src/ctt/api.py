@@ -24,7 +24,7 @@ def load_model_from_path() -> CttPredictorModel:
 
 class CttInputData(BaseModel):
     title: str
-    tags: str
+    tags: list[str]
     videoId: str
 
 
