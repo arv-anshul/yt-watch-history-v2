@@ -11,19 +11,20 @@ from src.configs import CTT_MODEL_PATH, CTT_MODEL_URL, ContentTypeEnum
 from src.utils import load_obj_from_path
 
 if TYPE_CHECKING:
-    from sklearn.pipeline import Pipeline
+    from src.ctt.model import CttPredictorModel
 
 router = APIRouter()
 
 
 @lru_cache(1)
-def load_model_from_path() -> Pipeline:
+def load_model_from_path() -> CttPredictorModel:
     model = load_obj_from_path(CTT_MODEL_URL, CTT_MODEL_PATH)
     return model
 
 
 class CttInputData(BaseModel):
     title: str
+    tags: list[str]
     videoId: str
 
 
@@ -39,10 +40,8 @@ class CttPrediction(BaseModel):
 )
 async def predict(
     data: list[CttInputData],
-    model: Pipeline = Depends(load_model_from_path),
+    model: CttPredictorModel = Depends(load_model_from_path),
 ):
-    df = pl.from_dicts([i.model_dump() for i in data])
-    prediction = model.predict(df["title"].to_list())
-    return df.with_columns(
-        pl.lit(prediction).str.to_lowercase().alias("contentTypePred"),
-    ).to_dicts()
+    df = pl.from_dicts([i.model_dump() for i in data]).lazy()
+    prediction = await model.predict(df).collect_async()
+    return prediction.to_dicts()

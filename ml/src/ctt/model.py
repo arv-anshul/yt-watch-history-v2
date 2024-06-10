@@ -2,42 +2,110 @@ from __future__ import annotations
 
 import re
 import string
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Self
 
-import emoji
-import httpx
+import joblib
+import polars as pl
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.pipeline import Pipeline
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import make_pipeline
 
-from src.configs import CTT_MODEL_PATH, CTT_MODEL_URL
+from src.configs import CTT_MODEL_PATH, ContentTypeEnum
+
+from .data import preprocess
 
 if TYPE_CHECKING:
-    from sklearn.base import BaseEstimator
+    from pathlib import Path
 
 
-def preprocessor(s: str) -> str:
+def text_preprocessor(s: str) -> str:
     """Preprocessor for Vectorizer"""
     s = re.sub(r"\b\w{1,3}\b", " ", s)
     s = s.translate(str.maketrans("", "", string.punctuation + string.digits))
-    s = emoji.replace_emoji(s, "")
     s = re.sub(r"\s+", " ", s)
     return s
 
 
-def get_model(model: BaseEstimator) -> Pipeline:
-    vectorizer = TfidfVectorizer(
-        preprocessor=preprocessor,
-        stop_words="english",
-        ngram_range=(1, 2),
-        max_features=7000,
+class CttPredictorModel:
+    _req_cols = (
+        "channelId",
+        "channelTitle",
+        "title",
+        "tags",
+        "contentType",
     )
-    return Pipeline([("vectorizer", vectorizer), ("model", model)])
+
+    def __init__(self, data: pl.LazyFrame) -> None:
+        if not all(col in data.columns for col in self._req_cols):
+            msg = f"data must have required cols {self._req_cols}"
+            raise pl.ColumnNotFoundError(msg)
+        self.data = data.select(self._req_cols).pipe(preprocess)
+
+    def fit(self) -> Self:
+        self.transformer = TfidfVectorizer(
+            preprocessor=text_preprocessor,
+            stop_words="english",
+            ngram_range=(1, 1),
+            strip_accents="ascii",
+            lowercase=False,
+        )
+        self.pipeline = make_pipeline(
+            self.transformer,
+            MultinomialNB(alpha=0.2),
+        )
+
+        _data = self.data.collect()
+        self.pipeline.fit(
+            _data.get_column("input"),
+            _data.get_column("contentType"),
+        )
+        return self
+
+    def predict(self, data: pl.LazyFrame) -> pl.LazyFrame:
+        """
+        data must have `'videoId', 'title', 'tags'` columns for prediction.
+        """
+        _data = data.with_columns(
+            pl.col("title")
+            .add(pl.col("tags").list.join(" "))
+            .str.to_lowercase()
+            .alias("input"),
+        ).collect()
+        return (
+            _data.select(
+                "videoId",
+                pl.Series(
+                    "contentTypePred",
+                    self.pipeline.predict(_data.get_column("input")),
+                    pl.UInt16(),
+                ),
+            )
+            .with_columns(
+                pl.col("contentTypePred").replace(
+                    pl.int_range(len(ContentTypeEnum), dtype=pl.UInt16),
+                    tuple(str(i) for i in ContentTypeEnum),
+                ),
+            )
+            .lazy()
+        )
+
+    def dump(self, path: Path | None = None) -> None:
+        path = path or CTT_MODEL_PATH
+        path.parent.mkdir(parents=True, exist_ok=True)
+        joblib.dump(self, path)
 
 
-def download_ctt_ml_model_from_url() -> None:
-    """Download CTT model from URL and store it at its defined path."""
-    response = httpx.get(CTT_MODEL_URL, timeout=5, follow_redirects=True)
-    if not response.is_success:
-        msg = f"Wrong status code from response [{response.status_code}]"
-        raise httpx.HTTPStatusError(msg, request=response.request, response=response)
-    CTT_MODEL_PATH.write_bytes(response.content)
+if __name__ == "__main__":
+    from src.configs import CTT_CHANNELS_DATA_PATH, CTT_TITLES_DATA_PATH
+
+    raw_data = (
+        pl.read_json(CTT_CHANNELS_DATA_PATH)
+        .join(
+            pl.read_json(CTT_TITLES_DATA_PATH),
+            on=["channelId", "channelTitle"],
+        )
+        .lazy()
+    )
+    ctt_model = CttPredictorModel(raw_data)
+    ctt_model.fit()
+    ctt_model.dump()

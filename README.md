@@ -26,7 +26,8 @@ Analyse you YouTube Watch History using Machine Learning, plot graphs, etc.
 
 1. **Video's Content Type Predictor**
    - Multiclass Classification Problem
-   - Uses _Video Title_ to predict Content Type
+   - Uses Video's title and tags to predict Content Type
+   - Planning to add Video's categoryId and duration for prediction but wants to sure about improvements
 2. **Channel Recommender System**
    - Recommender System
    - Uses channel's videos title and tags to calculate similarity
@@ -68,20 +69,6 @@ git clone https://github.com/arv-anshul/yt-watch-history-v2
 cd yt-watch-history-v2
 ```
 
-Train ML model [CTT model](ml/src/ctt/training.py) using below command:
-
-```bash
-cd ./ml
-```
-
-```bash
-# Using rye
-rye run python -m src.ctt.model
-
-# Using python (activate virtual environment)
-python -m src.ctt.model
-```
-
 Open **Docker Desktop** and run below command:
 
 👀 See [docker-compose.yaml]
@@ -96,8 +83,10 @@ docker compose up --build  # First build the container and then run it (for firs
 - [x] 🎨 Draw diagrams for references
 - [x] ⛓️ How to intergrate **pre-trained** ML Model
 - [x] 🤖 Build **Channel Recommender System**
-- [ ] 👷 Better CTT Model pipeline
-- [ ] 📌 Integrate `mlflow` for ML Model monitoring
+- [x] 👷 Better CTT Model pipeline
+- [ ] 📌 Integrate `mlflow`[^1] for ML Model monitoring
 
 [docker-compose.yaml]: docker-compose.yaml
 [yt-watch-history]: https://github.com/arv-anshul/yt-watch-history
+
+[^1]: CampusX is going to launch a free course on MLFlow. Nitish Sir announce this in his recent video.

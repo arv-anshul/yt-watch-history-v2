@@ -5,24 +5,36 @@ import polars as pl
 from src.configs import CONTENT_TYPE_TAGS
 
 
-def data_preprocessor(data: pl.LazyFrame) -> pl.LazyFrame:
-    req_cols = {"channelId", "contentType", "title"}
-    data_cols = data.columns
-    if not all(i in data_cols for i in req_cols):
-        raise pl.ColumnNotFoundError(
-            "X must contains columns %s" % list(req_cols - set(data_cols)),
-        )
+def preprocess(data: pl.LazyFrame) -> pl.LazyFrame:
     return (
         data
         # Data Cleaning
         .with_columns(
-            pl.col("contentType").replace(
+            pl.col("tags").list.unique(),
+        )
+        .explode("tags")
+        .drop_nulls("tags")
+        .with_columns(
+            pl.col("contentType")
+            .str.to_lowercase()
+            .replace(
                 CONTENT_TYPE_TAGS,
                 range(len(CONTENT_TYPE_TAGS)),
+                return_dtype=pl.UInt16(),
             ),
         )
         # Data Transformation
         .group_by("contentType")
-        .agg("title")
-        .with_columns(pl.col("title").list.join(" "))
+        .agg(
+            pl.col("title").unique(),
+            pl.col("tags").flatten().unique(),
+        )
+        .with_columns(
+            pl.col("title")
+            .list.join(" ")
+            .add(pl.col("tags").list.join(" "))
+            .str.to_lowercase()
+            .alias("input"),
+        )
+        .select("input", "contentType")
     )
