@@ -79,12 +79,13 @@ docker compose up --build  # First build the container and then run it (for firs
 
 ## Roadmap
 
+- [ ] 🪠 Create a ETL pipeline to train models
+- [ ] 📌 Integrate `mlflow`[^1] for ML Model monitoring
 - [x] 🛠️ Build the basics from [yt-watch-history] project
 - [x] 🎨 Draw diagrams for references
 - [x] ⛓️ How to intergrate **pre-trained** ML Model
 - [x] 🤖 Build **Channel Recommender System**
 - [x] 👷 Better CTT Model pipeline
-- [ ] 📌 Integrate `mlflow`[^1] for ML Model monitoring
 
 [docker-compose.yaml]: docker-compose.yaml
 [yt-watch-history]: https://github.com/arv-anshul/yt-watch-history
